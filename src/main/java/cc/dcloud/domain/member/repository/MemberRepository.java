@@ -1,6 +1,6 @@
 package cc.dcloud.domain.member.repository;
 
-import cc.dcloud.domain.Member;
+import cc.dcloud.domain.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

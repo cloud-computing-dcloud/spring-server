@@ -1,6 +1,6 @@
 package cc.dcloud.domain.login.service;
 
-import cc.dcloud.domain.Member;
+import cc.dcloud.domain.member.Member;
 import cc.dcloud.domain.login.pojo.CacheKey;
 import cc.dcloud.domain.login.pojo.CustomUserDetails;
 import cc.dcloud.domain.member.repository.MemberRepository;

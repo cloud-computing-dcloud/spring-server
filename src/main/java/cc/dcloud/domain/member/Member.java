@@ -1,6 +1,5 @@
-package cc.dcloud.domain;
+package cc.dcloud.domain.member;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,21 +29,21 @@ public class Member {
 
 	private String password;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
-	@Builder.Default
-	private List<MemberGroup> memberGroupList = new ArrayList<>();
+//	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+//	@Builder.Default
+//	private List<MemberGroup> memberGroupList = new ArrayList<>();
 
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
 	@Builder.Default
 	private Set<Authority> authorities = new HashSet<>();
 
-	public Member() {}
+	public Member() {
+	}
 
-	public Member(Integer id, String username, String password, List<MemberGroup> memberGroupList, Set<Authority> authorities) {
+	public Member(Integer id, String username, String password, Set<Authority> authorities) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
-		this.memberGroupList = memberGroupList;
 		this.authorities = authorities;
 	}
 
@@ -82,7 +81,4 @@ public class Member {
 		}
 	}
 
-	public void addMemberGroup(MemberGroup memberGroup) {
-		memberGroupList.add(memberGroup);
-	}
 }

@@ -1,7 +1,6 @@
 package cc.dcloud.domain.login.dto;
 
-import cc.dcloud.domain.Group;
-import cc.dcloud.domain.MemberGroup;
+import cc.dcloud.domain.memberGroup.MemberGroup;
 import lombok.Builder;
 import lombok.Getter;
 
