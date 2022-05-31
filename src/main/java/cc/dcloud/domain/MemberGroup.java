@@ -28,5 +28,13 @@ public class MemberGroup {
 	@JoinColumn(name = "group_id")
 	private Group group;
 
+	//===생성 메서드===//
+	protected MemberGroup(){}
+	public static MemberGroup create(Member member, Group group){
+		MemberGroup memberGroup = new MemberGroup();
 
+		memberGroup.member = member;
+		memberGroup.group = group;
+		return memberGroup;
+	}
 }
