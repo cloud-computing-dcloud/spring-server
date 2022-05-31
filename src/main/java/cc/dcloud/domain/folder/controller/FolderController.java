@@ -6,12 +6,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import cc.dcloud.domain.File;
 import cc.dcloud.domain.Folder;
 import cc.dcloud.domain.files.service.FileService;
 import cc.dcloud.domain.folder.dto.ContentDto;
+import cc.dcloud.domain.folder.dto.FolderCreateForm;
 import cc.dcloud.domain.folder.dto.FolderDto;
 import cc.dcloud.domain.folder.service.FolderService;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +47,9 @@ public class FolderController {
 	 * @return FolderDto
 	 */
 	@PostMapping("folders/{folderId}/create")
-	public ResponseEntity<FolderDto> createSubFolder(@PathVariable Integer folderId, String name) {
+	public ResponseEntity<FolderDto> createSubFolder(@PathVariable Integer folderId, @RequestBody FolderCreateForm form) {
+		String name = form.getName();
+		System.out.println(name);
 		Folder nowFolder = folderService.getFolderById(folderId);
 		Integer id = folderService.createSubFolder(
 			new Folder(name, nowFolder.getGroup(), nowFolder.getId())
