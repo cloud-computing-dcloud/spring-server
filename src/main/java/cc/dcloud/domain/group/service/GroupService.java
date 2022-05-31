@@ -1,14 +1,13 @@
-package cc.dcloud.group.service;
+package cc.dcloud.domain.group.service;
 
-import cc.dcloud.domain.Group;
+import cc.dcloud.domain.group.Group;
 import cc.dcloud.domain.GroupType;
-import cc.dcloud.group.dto.GroupDTO;
-import cc.dcloud.group.repository.GroupRepository;
+import cc.dcloud.domain.login.exception.NotFoundException;
+import cc.dcloud.domain.group.repository.GroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,10 +17,10 @@ public class GroupService {
     private final GroupRepository groupRepository;
 
     @Transactional
-    public Group create(Integer memberId, String name, GroupType groupType) {
-        Group group = Group.create(memberId, name, groupType);
+    public Group create(String name, GroupType groupType) {
+        Group build = Group.create(name, groupType);
+        Group group = groupRepository.save(build);
 
-        groupRepository.save(group);
         return group;
     }
 
@@ -29,7 +28,8 @@ public class GroupService {
     public void join(Integer groupId, Integer memberId){
         // 로그인 인증 및 권한
 
-        Group group = groupRepository.findById(groupId);
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(NotFoundException::new);
         //group.join(memberId); // 이거 어떄?
     }
 

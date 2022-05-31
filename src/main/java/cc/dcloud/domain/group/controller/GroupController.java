@@ -1,6 +1,6 @@
-package cc.dcloud.group.controller;
+package cc.dcloud.domain.group.controller;
 
-import cc.dcloud.group.service.GroupService;
+import cc.dcloud.domain.group.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

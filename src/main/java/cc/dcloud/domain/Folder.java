@@ -1,5 +1,7 @@
 package cc.dcloud.domain;
 
+import cc.dcloud.domain.group.Group;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

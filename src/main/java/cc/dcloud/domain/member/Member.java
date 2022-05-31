@@ -1,4 +1,4 @@
-package cc.dcloud.domain;
+package cc.dcloud.domain.member;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.*;
 
+import cc.dcloud.domain.MemberGroup;
 import cc.dcloud.domain.login.dto.SignUpDto;
 import cc.dcloud.domain.login.exception.NotMatchPwdException;
 import cc.dcloud.domain.login.pojo.Authority;
@@ -30,7 +31,7 @@ public class Member {
 
 	private String password;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
 	@Builder.Default
 	private List<MemberGroup> memberGroupList = new ArrayList<>();
 

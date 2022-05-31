@@ -1,10 +1,8 @@
 package cc.dcloud.domain.login.pojo;
 
-import cc.dcloud.domain.Member;
-import lombok.AllArgsConstructor;
+import cc.dcloud.domain.member.Member;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;

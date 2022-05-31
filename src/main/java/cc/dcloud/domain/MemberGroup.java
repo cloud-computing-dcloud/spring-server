@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import cc.dcloud.domain.group.Group;
+import cc.dcloud.domain.member.Member;
 import lombok.Getter;
 
 @Entity

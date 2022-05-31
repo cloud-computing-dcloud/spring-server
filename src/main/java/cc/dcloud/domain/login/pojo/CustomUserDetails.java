@@ -1,6 +1,6 @@
 package cc.dcloud.domain.login.pojo;
 
-import cc.dcloud.domain.Member;
+import cc.dcloud.domain.member.Member;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;

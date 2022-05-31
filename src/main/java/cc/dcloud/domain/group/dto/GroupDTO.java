@@ -1,4 +1,4 @@
-package cc.dcloud.group.dto;
+package cc.dcloud.domain.group.dto;
 
 import cc.dcloud.domain.Folder;
 import cc.dcloud.domain.GroupType;
