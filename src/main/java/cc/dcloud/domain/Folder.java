@@ -7,7 +7,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
 public class Folder {
 
 	@Id
@@ -22,9 +26,15 @@ public class Folder {
 	@JoinColumn(name = "group_id")
 	private Group group; //소유 그룹. 접근권한 확인 시 필요
 
-	private Integer parent_id; // 상위 폴더 -> findAllByParentId(paren_id) -> 하위폴더 목록 가져옴
+	@Column(name = "parent_Id")
+	private Integer parentId; // 상위 폴더 -> findAllByParentId(paren_id) -> 하위폴더 목록 가져옴
 	//폴더 삭제 시 dfs, stack 써서 삭제
 
 	//파일 이름, id 목록
 
+	public Folder(String name, Group group, Integer parentId) {
+		this.name = name;
+		this.group = group;
+		this.parentId = parentId;
+	}
 }
