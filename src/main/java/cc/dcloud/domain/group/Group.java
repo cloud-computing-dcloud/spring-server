@@ -64,6 +64,10 @@ public class Group {
 
 	}
 
+	public void setRootFolderId(Integer rootFolderId) {
+		this.rootFolderId = rootFolderId;
+	}
+
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder("Group{");

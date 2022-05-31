@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cc.dcloud.domain.Folder;
 import cc.dcloud.domain.folder.repository.FolderRepository;
+import cc.dcloud.domain.group.Group;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -17,8 +18,17 @@ public class FolderService {
 	private final FolderRepository folderRepository;
 
 	@Transactional
-	public Integer createFolder(Folder folder) {
+	public Integer createSubFolder(Folder folder) {
 		return folderRepository.save(folder);
+	}
+
+	@Transactional
+	public Integer createRootFolder(Group group){
+		Folder folder = new Folder("root", group, null);
+		Integer id = folderRepository.save(folder);
+		group.setRootFolderId(id);
+		folder.setGroup(group);
+		return id;
 	}
 
 	public List<Folder> showAllSubFolders(Integer folderId) {

@@ -43,11 +43,12 @@ public class FolderController {
 	 * @return FolderDto
 	 */
 	@PostMapping("folders/{folderId}/create")
-	public ResponseEntity<FolderDto> createFolder(@PathVariable Integer folderId, String name) {
+	public ResponseEntity<FolderDto> createSubFolder(@PathVariable Integer folderId, String name) {
 		Folder nowFolder = folderService.getFolderById(folderId);
-		Integer id = folderService.createFolder(
+		Integer id = folderService.createSubFolder(
 			new Folder(name, nowFolder.getGroup(), nowFolder.getId())
 		);
 		return ResponseEntity.ok(new FolderDto(id, name));
 	}
+
 }

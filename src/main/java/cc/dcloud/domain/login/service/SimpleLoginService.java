@@ -1,5 +1,6 @@
 package cc.dcloud.domain.login.service;
 
+import cc.dcloud.domain.folder.service.FolderService;
 import cc.dcloud.domain.group.Group;
 import cc.dcloud.domain.GroupType;
 import cc.dcloud.domain.member.Member;
@@ -43,8 +44,12 @@ public class SimpleLoginService implements LoginService{
     private final MemberService memberService;
     private final GroupService groupService;
     private final MemberGroupService memberGroupService;
+    private final FolderService folderService;
 
-    public SimpleLoginService(PasswordEncoder passwordEncoder, RefreshTokenRedisRepository refreshTokenRedisRepository, LogoutAccessTokenRedisRepository logoutAccessTokenRedisRepository, JwtTokenUtil jwtTokenUtil, MemberService memberService, GroupService groupService, MemberGroupService memberGroupService) {
+    public SimpleLoginService(PasswordEncoder passwordEncoder, RefreshTokenRedisRepository refreshTokenRedisRepository,
+        LogoutAccessTokenRedisRepository logoutAccessTokenRedisRepository, JwtTokenUtil jwtTokenUtil,
+        MemberService memberService, GroupService groupService, MemberGroupService memberGroupService,
+        FolderService folderService) {
         this.memberService = memberService;
         this.passwordEncoder = passwordEncoder;
         this.refreshTokenRedisRepository = refreshTokenRedisRepository;
@@ -52,6 +57,7 @@ public class SimpleLoginService implements LoginService{
         this.jwtTokenUtil = jwtTokenUtil;
         this.groupService = groupService;
         this.memberGroupService = memberGroupService;
+        this.folderService = folderService;
     }
 
     @Override
@@ -60,6 +66,7 @@ public class SimpleLoginService implements LoginService{
         signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         Member member = memberService.signUp(signUpDto);
         Group group = groupService.create(signUpDto.getUsername(), GroupType.PRIVATE);
+        folderService.createRootFolder(group);
         memberGroupService.create(member.getId(), group.getId());
     }
 

@@ -31,9 +31,17 @@ public class Folder {
 
 	//파일 이름, id 목록
 
+	public void setGroup(Group group) {
+		this.group = group;
+	}
+
 	public Folder(String name, Group group, Integer parentId) {
 		this.name = name;
 		this.group = group;
 		this.parentId = parentId;
+	}
+
+	public Folder() {
+
 	}
 }
