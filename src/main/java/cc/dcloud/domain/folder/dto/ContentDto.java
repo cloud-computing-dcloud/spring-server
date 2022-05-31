@@ -5,7 +5,7 @@ import java.util.List;
 
 import cc.dcloud.domain.File;
 import cc.dcloud.domain.Folder;
-import lombok.AllArgsConstructor;
+import cc.dcloud.domain.files.dto.FileDto;
 import lombok.Getter;
 
 @Getter
@@ -22,7 +22,7 @@ public class ContentDto {
 		}
 		files = new ArrayList<>();
 		for (File file : fileList) {
-			files.add(new FileDto(file.getId(), file.getFileName()));
+			files.add(new FileDto(file.getId(), file.getFileName(), file.getUploadTime(), file.getFileSize()));
 		}
 	}
 

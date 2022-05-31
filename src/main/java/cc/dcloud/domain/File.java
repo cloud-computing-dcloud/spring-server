@@ -7,10 +7,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class File {
 
 	@Id
@@ -24,5 +30,5 @@ public class File {
 
 	private LocalDateTime uploadTime; //할지 안할지 모르겠음
 
-	private Integer fileSize; //파일 용량 (Byte)
+	private Long fileSize; //파일 용량 (Byte)
 }
