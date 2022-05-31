@@ -19,6 +19,7 @@ public class SimpleMemberGroupService implements MemberGroupService {
     }
 
     @Override
+    @Transactional
     public MemberGroup create(Integer memberId, Integer groupId) {
         MemberGroup memberGroup = MemberGroup.create(memberId, groupId);
         return memberGroupRepository.save(memberGroup);
