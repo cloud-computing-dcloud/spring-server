@@ -1,8 +1,5 @@
 package cc.dcloud.domain.group.dto;
 
-import cc.dcloud.domain.Folder;
-import cc.dcloud.domain.GroupType;
-import cc.dcloud.domain.memberGroup.MemberGroup;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,9 +11,14 @@ public class GroupDTO {
 
     private Integer id;
     private String name;
-    private List<MemberGroup> memberGroupList;
-    private GroupType groupType;
     private Integer rootFolderId;
-    private List<Folder> folderList;
+//    private List<Folder> folderList;
 
+    public GroupDTO(){}
+
+    public GroupDTO(Integer id, String name, Integer rootFolderId){
+        this.id = id;
+        this.name = name;
+        this.rootFolderId = rootFolderId;
+    }
 }
