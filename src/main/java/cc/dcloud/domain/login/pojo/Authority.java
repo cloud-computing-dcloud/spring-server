@@ -1,0 +1,54 @@
+package cc.dcloud.domain.login.pojo;
+
+import cc.dcloud.domain.Member;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+
+import javax.persistence.*;
+
+@Entity
+@Builder
+@Getter
+public class Authority implements GrantedAuthority {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "authority_id")
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    private String role;
+
+    public Authority() {}
+
+    public Authority(Long id, Member member, String role) {
+        this.id = id;
+        this.member = member;
+        this.role = role;
+    }
+
+    public static Authority ofUser(Member member) {
+        return Authority.builder()
+                .role("ROLE_USER")
+                .member(member)
+                .build();
+    }
+
+    public static Authority ofAdmin(Member member) {
+        return Authority.builder()
+                .role("ROLE_ADMIN")
+                .member(member)
+                .build();
+    }
+
+    @Override
+    public String getAuthority() {
+        return role;
+    }
+}
