@@ -1,6 +1,5 @@
 package cc.dcloud.domain.member;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,7 +7,6 @@ import java.util.stream.Collectors;
 
 import javax.persistence.*;
 
-import cc.dcloud.domain.MemberGroup;
 import cc.dcloud.domain.login.dto.SignUpDto;
 import cc.dcloud.domain.login.exception.NotMatchPwdException;
 import cc.dcloud.domain.login.pojo.Authority;
@@ -31,21 +29,21 @@ public class Member {
 
 	private String password;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-	@Builder.Default
-	private List<MemberGroup> memberGroupList = new ArrayList<>();
+//	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+//	@Builder.Default
+//	private List<MemberGroup> memberGroupList = new ArrayList<>();
 
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
 	@Builder.Default
 	private Set<Authority> authorities = new HashSet<>();
 
-	public Member() {}
+	public Member() {
+	}
 
-	public Member(Integer id, String username, String password, List<MemberGroup> memberGroupList, Set<Authority> authorities) {
+	public Member(Integer id, String username, String password, Set<Authority> authorities) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
-		this.memberGroupList = memberGroupList;
 		this.authorities = authorities;
 	}
 
@@ -83,7 +81,4 @@ public class Member {
 		}
 	}
 
-	public void addMemberGroup(MemberGroup memberGroup) {
-		memberGroupList.add(memberGroup);
-	}
 }

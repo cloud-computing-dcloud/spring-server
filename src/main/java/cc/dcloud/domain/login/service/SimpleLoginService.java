@@ -3,7 +3,7 @@ package cc.dcloud.domain.login.service;
 import cc.dcloud.domain.group.Group;
 import cc.dcloud.domain.GroupType;
 import cc.dcloud.domain.member.Member;
-import cc.dcloud.domain.MemberGroup;
+import cc.dcloud.domain.memberGroup.MemberGroup;
 import cc.dcloud.domain.login.dto.LoginDto;
 import cc.dcloud.domain.login.dto.MemberDto;
 import cc.dcloud.domain.login.dto.SignUpDto;
@@ -19,6 +19,7 @@ import cc.dcloud.domain.login.util.JwtExpirationEnums;
 import cc.dcloud.domain.login.util.JwtTokenUtil;
 import cc.dcloud.domain.member.service.MemberService;
 import cc.dcloud.domain.group.service.GroupService;
+import cc.dcloud.domain.memberGroup.service.MemberGroupService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,6 +27,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static cc.dcloud.domain.login.util.JwtExpirationEnums.REFRESH_TOKEN_EXPIRATION_TIME;
 
@@ -39,14 +42,16 @@ public class SimpleLoginService implements LoginService{
     private final JwtTokenUtil jwtTokenUtil;
     private final MemberService memberService;
     private final GroupService groupService;
+    private final MemberGroupService memberGroupService;
 
-    public SimpleLoginService(PasswordEncoder passwordEncoder, RefreshTokenRedisRepository refreshTokenRedisRepository, LogoutAccessTokenRedisRepository logoutAccessTokenRedisRepository, JwtTokenUtil jwtTokenUtil, MemberService memberService, GroupService groupService) {
+    public SimpleLoginService(PasswordEncoder passwordEncoder, RefreshTokenRedisRepository refreshTokenRedisRepository, LogoutAccessTokenRedisRepository logoutAccessTokenRedisRepository, JwtTokenUtil jwtTokenUtil, MemberService memberService, GroupService groupService, MemberGroupService memberGroupService) {
         this.memberService = memberService;
         this.passwordEncoder = passwordEncoder;
         this.refreshTokenRedisRepository = refreshTokenRedisRepository;
         this.logoutAccessTokenRedisRepository = logoutAccessTokenRedisRepository;
         this.jwtTokenUtil = jwtTokenUtil;
         this.groupService = groupService;
+        this.memberGroupService = memberGroupService;
     }
 
     @Override
@@ -55,8 +60,7 @@ public class SimpleLoginService implements LoginService{
         signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         Member member = memberService.signUp(signUpDto);
         Group group = groupService.create(signUpDto.getUsername(), GroupType.PRIVATE);
-        MemberGroup memberGroup = MemberGroup.create(member, group);
-        member.addMemberGroup(memberGroup);
+        memberGroupService.create(member.getId(), group.getId());
     }
 
     @Override
@@ -65,7 +69,7 @@ public class SimpleLoginService implements LoginService{
         signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         Member member = memberService.signUpAdmin(signUpDto);
         Group group = groupService.create(signUpDto.getUsername(), GroupType.PRIVATE);
-        MemberGroup.create(member, group);
+        memberGroupService.create(member.getId(), group.getId());
     }
 
     @Override
@@ -86,13 +90,15 @@ public class SimpleLoginService implements LoginService{
     public MemberDto getMemberInfo(String username) {
         Member member = memberService.getByUsername(username);
 
+        List<MemberGroup> memberGroupList = memberGroupService.getByMemberId(member.getId());
+
         if(!username.equals(getCurrentUsername())) {
             throw new NotMatchNameException();
         }
 
         return MemberDto.builder()
                 .username(username)
-                .memberGroupList(member.getMemberGroupList())
+                .memberGroupList(memberGroupList)
                 .build();
     }
 
