@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cc.dcloud.domain.Folder;
 import cc.dcloud.domain.folder.repository.FolderRepository;
 import cc.dcloud.domain.group.Group;
+import cc.dcloud.domain.member.Member;
 import lombok.RequiredArgsConstructor;
 
 @Service

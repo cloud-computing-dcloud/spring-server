@@ -1,5 +1,6 @@
 package cc.dcloud.domain.group.service;
 
+import cc.dcloud.domain.folder.service.FolderService;
 import cc.dcloud.domain.group.Group;
 import cc.dcloud.domain.GroupType;
 import cc.dcloud.domain.login.exception.NotFoundException;
@@ -19,6 +20,7 @@ public class GroupService {
 
     private final GroupRepository groupRepository;
     private final MemberRepository memberRepository;
+    private final FolderService folderService;
 
     @Transactional
     public Group create(String name, GroupType groupType) {
@@ -30,13 +32,13 @@ public class GroupService {
 
     @Transactional
     public Group createPublicGroup(Integer memberId, String name, GroupType groupType){
-        Member member = memberRepository
+        memberRepository
                 .findById(memberId)
                 .orElseThrow(NotFoundException::new);
         Group build = Group.create(name, groupType);
         Group group = groupRepository.save(build);
-
-        MemberGroup memberGroup = MemberGroup.create(memberId, group.getId());
+        folderService.createRootFolder(group);
+        MemberGroup.create(memberId, group.getId());
         return group;
     }
 
