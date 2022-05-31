@@ -4,6 +4,9 @@ import cc.dcloud.domain.group.Group;
 import cc.dcloud.domain.GroupType;
 import cc.dcloud.domain.login.exception.NotFoundException;
 import cc.dcloud.domain.group.repository.GroupRepository;
+import cc.dcloud.domain.member.Member;
+import cc.dcloud.domain.member.repository.MemberRepository;
+import cc.dcloud.domain.memberGroup.MemberGroup;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,12 +18,25 @@ import org.springframework.transaction.annotation.Transactional;
 public class GroupService {
 
     private final GroupRepository groupRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public Group create(String name, GroupType groupType) {
         Group build = Group.create(name, groupType);
         Group group = groupRepository.save(build);
 
+        return group;
+    }
+
+    @Transactional
+    public Group createPublicGroup(Integer memberId, String name, GroupType groupType){
+        Member member = memberRepository
+                .findById(memberId)
+                .orElseThrow(NotFoundException::new);
+        Group build = Group.create(name, groupType);
+        Group group = groupRepository.save(build);
+
+        MemberGroup memberGroup = MemberGroup.create(memberId, group.getId());
         return group;
     }
 

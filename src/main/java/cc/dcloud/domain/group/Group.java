@@ -36,10 +36,10 @@ public class Group {
 	@Builder.Default
 	private Integer rootFolderId = 1; //index page
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.ALL)
-	@JoinColumn(name = "folder_id")
-	@Builder.Default
-	private List<Folder> folderList = new ArrayList<>();
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "group", cascade = CascadeType.ALL)
+//	@JoinColumn(name = "folder_id")
+//	@Builder.Default
+//	private List<Folder> folderList = new ArrayList<>();
 	// 있으면 개발은 편해짐. 성능 안좋아질수있다. 우리 서비스 그렇게 크게 안하니까 일단 개발이렇게 하자
 	// 없으면 rootFolderid통해서 dfs돌려서 하나씩삭제해줘야함
 
