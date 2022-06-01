@@ -23,7 +23,16 @@ public class FileService {
 		return fileRepository.save(file);
 	}
 
+	public File findById(Integer id) {
+		return fileRepository.findById(id);
+	}
+
 	public List<File> showAllSubFiles(Integer folderId) {
 		return fileRepository.findAllFilesByFolderId(folderId);
+	}
+
+	@Transactional
+	public void deleteFile(File file) {
+		fileRepository.delete(file);
 	}
 }

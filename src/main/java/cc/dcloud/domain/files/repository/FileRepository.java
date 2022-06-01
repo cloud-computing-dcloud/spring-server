@@ -29,4 +29,8 @@ public class FileRepository {
 			.setParameter("folderId", folderId)
 			.getResultList();
 	}
+
+	public void delete(File file){
+		em.remove(file);
+	}
 }
