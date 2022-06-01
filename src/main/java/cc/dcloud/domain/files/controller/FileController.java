@@ -20,6 +20,7 @@ import cc.dcloud.domain.files.dto.FileDownloadDto;
 import cc.dcloud.domain.files.dto.FileDownloadForm;
 import cc.dcloud.domain.files.dto.FileDto;
 import cc.dcloud.domain.files.service.FileService;
+import cc.dcloud.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -83,7 +84,7 @@ public class FileController {
 			String s3Key = folderId+"/"+fileId;
 
 			return "success";
-		} catch (IllegalAccessException ex) {
+		} catch (NotFoundException ex) {
 			throw new ResponseStatusException(
 				HttpStatus.NOT_FOUND, "File Not Found", ex);
 		}

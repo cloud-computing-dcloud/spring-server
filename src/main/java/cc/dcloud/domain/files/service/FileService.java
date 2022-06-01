@@ -23,7 +23,7 @@ public class FileService {
 		return fileRepository.save(file);
 	}
 
-	public File findById(Integer id) throws IllegalAccessException {
+	public File findById(Integer id) {
 		return fileRepository.findById(id);
 	}
 

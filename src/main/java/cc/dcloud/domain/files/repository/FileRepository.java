@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 
 import cc.dcloud.domain.File;
+import cc.dcloud.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -20,10 +21,10 @@ public class FileRepository {
 		return file.getId();
 	}
 
-	public File findById(Integer id) throws IllegalAccessException {
+	public File findById(Integer id) {
 		File file = em.find(File.class, id);
 		if(file==null){
-			throw new IllegalAccessException("존재하지 않는 파일입니다.");
+			throw new NotFoundException("존재하지 않는 파일입니다.");
 		}
 		return file;
 	}

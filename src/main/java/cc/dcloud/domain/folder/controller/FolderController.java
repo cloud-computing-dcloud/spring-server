@@ -3,13 +3,16 @@ package cc.dcloud.domain.folder.controller;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import cc.dcloud.domain.File;
 import cc.dcloud.domain.Folder;
@@ -24,6 +27,7 @@ import cc.dcloud.domain.member.Member;
 import cc.dcloud.domain.member.service.MemberService;
 import cc.dcloud.domain.memberGroup.MemberGroup;
 import cc.dcloud.domain.memberGroup.service.MemberGroupService;
+import cc.dcloud.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -89,4 +93,19 @@ public class FolderController {
 		return ResponseEntity.ok(new FolderDto(id, name));
 	}
 
+	/**
+	 * 폴더 삭제. dfs사용. root폴더는 삭제 못하도록 막아야 함.
+	 * @param folderId
+	 * @return
+	 */
+	@DeleteMapping("folders/{folderId}")
+	public String deleteFolder(@PathVariable Integer folderId) {
+		try {
+			folderService.deleteFolderDfs(folderId);
+		} catch (NotFoundException e) {
+			throw new ResponseStatusException(
+				HttpStatus.NOT_FOUND, "File Not Found", e);
+		}
+		return "success";
+	}
 }
