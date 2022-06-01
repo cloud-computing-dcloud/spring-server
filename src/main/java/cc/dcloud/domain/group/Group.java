@@ -11,7 +11,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "groups")
+@Table(name = "drivers")
 @Getter
 @Builder
 public class Group {
