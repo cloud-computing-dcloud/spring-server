@@ -48,19 +48,22 @@ public class FolderController {
 	@GetMapping("folders/{folderId}")
 	public ResponseEntity<ContentDto> getAllContents(@PathVariable Integer folderId,
 		@RequestHeader String authorization) {
+		ContentDto content = new ContentDto();
 		Member member = getMemberByToken(authorization);
-		boolean exist = validateMember(folderId, member);
-		if (!exist) {
-			return ResponseEntity.notFound().build();
+		try {
+			validateMember(folderId, member);
+		} catch (NotFoundException e) {
+			throw new ResponseStatusException(
+				HttpStatus.NOT_FOUND, "Not Found", e
+			);
 		}
 		List<Folder> folders = folderService.showAllSubFolders(folderId);
 		List<File> files = fileService.showAllSubFiles(folderId);
-		ContentDto content = new ContentDto();
 		content.createContentDto(folders, files);
 		return ResponseEntity.ok(content);
 	}
 
-	private boolean validateMember(Integer folderId, Member member) {
+	private void validateMember(Integer folderId, Member member) {
 		Integer id = member.getId();
 		Folder folder = folderService.getFolderById(folderId);
 		Group group = folder.getGroup();
@@ -68,7 +71,9 @@ public class FolderController {
 		boolean exist = memberGroups.stream().anyMatch(v ->
 			Objects.equals(v.getGroupId(), group.getId())
 		);
-		return exist;
+		if (!exist) {
+			throw new NotFoundException("폴더가 존재하지 않거나 접근 권한이 없습니다.");
+		}
 	}
 
 	private Member getMemberByToken(String authorization) {

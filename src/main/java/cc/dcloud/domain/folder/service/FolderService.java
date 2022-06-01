@@ -11,6 +11,7 @@ import cc.dcloud.domain.files.repository.FileRepository;
 import cc.dcloud.domain.folder.repository.FolderRepository;
 import cc.dcloud.domain.group.Group;
 import cc.dcloud.domain.member.Member;
+import cc.dcloud.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -39,7 +40,7 @@ public class FolderService {
 		return folderRepository.findAllByParentFolderId(folderId);
 	}
 
-	public Folder getFolderById(Integer folderId) {
+	public Folder getFolderById(Integer folderId) throws NotFoundException {
 		return folderRepository.findById(folderId);
 	}
 
