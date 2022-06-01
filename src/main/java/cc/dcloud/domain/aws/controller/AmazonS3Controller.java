@@ -20,7 +20,7 @@ public class AmazonS3Controller {
 
     @PostMapping("/file")
     public ResponseEntity<List<String>> uploadFile(@RequestPart List<MultipartFile> multipartFile) {
-        List<String> fileNameList = awsS3Service.uploadFile(multipartFile);
+        List<String> fileNameList = awsS3Service.uploadFile(0, multipartFile);
         return ResponseEntity.ok(fileNameList);
     }
 
