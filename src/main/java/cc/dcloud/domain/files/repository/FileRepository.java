@@ -20,8 +20,12 @@ public class FileRepository {
 		return file.getId();
 	}
 
-	public File findById(Integer id) {
-		return em.find(File.class, id);
+	public File findById(Integer id) throws IllegalAccessException {
+		File file = em.find(File.class, id);
+		if(file==null){
+			throw new IllegalAccessException("존재하지 않는 파일입니다.");
+		}
+		return file;
 	}
 
 	public List<File> findAllFilesByFolderId(Integer folderId) {

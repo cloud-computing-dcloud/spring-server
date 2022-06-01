@@ -2,6 +2,8 @@ package cc.dcloud.domain.files.controller;
 
 import java.time.LocalDateTime;
 
+import org.apache.catalina.connector.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import cc.dcloud.domain.File;
 import cc.dcloud.domain.files.dto.FileDeleteForm;
@@ -71,14 +74,18 @@ public class FileController {
 	@DeleteMapping("/folders/{folderId}/delete")
 	public String deleteFile(@PathVariable Integer folderId,
 		@RequestBody FileDeleteForm form) {
+		try {
+			Integer fileId = form.getFileId();
+			File file = fileService.findById(fileId);
+			fileService.deleteFile(file);
 
-		Integer fileId = form.getFileId();
-		File file = fileService.findById(fileId);
-		fileService.deleteFile(file);
+			//s3 삭제 코드 추가 필요
+			String s3Key = folderId+"/"+fileId;
 
-		//s3 삭제 코드 추가 필요
-		String s3Key = folderId+"/"+fileId;
-
-		return "success";
+			return "success";
+		} catch (IllegalAccessException ex) {
+			throw new ResponseStatusException(
+				HttpStatus.NOT_FOUND, "File Not Found", ex);
+		}
 	}
 }
