@@ -2,7 +2,7 @@ package cc.dcloud.domain.member.service;
 
 import cc.dcloud.domain.member.Member;
 import cc.dcloud.domain.login.dto.SignUpDto;
-import cc.dcloud.domain.login.exception.NotFoundException;
+import cc.dcloud.exception.NotFoundException;
 import cc.dcloud.domain.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,8 +1,8 @@
-package cc.dcloud.domain.login.exception;
+package cc.dcloud.exception;
 
 public class NotMatchNameException extends RuntimeException {
 
-    private static final String NOT_MATCH_NAME = "유저의 아이디가 틀렸습니다.";
+    private static final String NOT_MATCH_NAME = "name not matched";
 
     public NotMatchNameException() {
         this(NOT_MATCH_NAME);

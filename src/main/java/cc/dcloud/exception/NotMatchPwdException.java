@@ -1,8 +1,8 @@
-package cc.dcloud.domain.login.exception;
+package cc.dcloud.exception;
 
 public class NotMatchPwdException extends RuntimeException {
 
-    private static final String NOT_MATCH_PASSWORD = "비밀번호가 틀렸습니다.";
+    private static final String NOT_MATCH_PASSWORD = "password not matched";
 
     public NotMatchPwdException() {
         this(NOT_MATCH_PASSWORD);

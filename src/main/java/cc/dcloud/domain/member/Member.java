@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import javax.persistence.*;
 
 import cc.dcloud.domain.login.dto.SignUpDto;
-import cc.dcloud.domain.login.exception.NotMatchPwdException;
+import cc.dcloud.exception.NotMatchPwdException;
 import cc.dcloud.domain.login.pojo.Authority;
 import lombok.Builder;
 import lombok.Getter;

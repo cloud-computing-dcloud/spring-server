@@ -1,7 +1,6 @@
 package cc.dcloud.domain.login.pojo;
 
-import cc.dcloud.domain.login.dto.TokenDto;
-import cc.dcloud.domain.login.exception.NotMatchTokenException;
+import cc.dcloud.exception.NotMatchTokenException;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.redis.core.RedisHash;
