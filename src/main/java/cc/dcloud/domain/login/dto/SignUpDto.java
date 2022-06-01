@@ -9,14 +9,14 @@ import lombok.Setter;
 @Setter
 public class SignUpDto {
 
-    private String username;
-    private String password;
+	private String username;
+	private String password;
 
-    public SignUpDto() {
-    }
+	public SignUpDto() {
+	}
 
-    public SignUpDto(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
+	public SignUpDto(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
 }

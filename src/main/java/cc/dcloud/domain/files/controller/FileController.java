@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import cc.dcloud.domain.File;
 import cc.dcloud.domain.aws.service.AwsS3Service;
+import cc.dcloud.domain.files.File;
 import cc.dcloud.domain.files.dto.FileDeleteForm;
 import cc.dcloud.domain.files.dto.FileDownloadDto;
 import cc.dcloud.domain.files.dto.FileDownloadForm;

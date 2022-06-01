@@ -1,4 +1,4 @@
-package cc.dcloud.domain;
+package cc.dcloud.domain.files;
 
 import java.time.LocalDateTime;
 

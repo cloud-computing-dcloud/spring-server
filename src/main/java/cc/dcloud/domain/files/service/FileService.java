@@ -6,7 +6,7 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cc.dcloud.domain.File;
+import cc.dcloud.domain.files.File;
 import cc.dcloud.domain.files.repository.FileRepository;
 import cc.dcloud.domain.folder.repository.FolderRepository;
 import cc.dcloud.exception.AlreadyExistException;

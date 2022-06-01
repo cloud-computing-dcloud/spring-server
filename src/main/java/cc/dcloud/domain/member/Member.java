@@ -5,14 +5,21 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import cc.dcloud.domain.login.dto.SignUpDto;
-import cc.dcloud.exception.NotMatchPwdException;
 import cc.dcloud.domain.login.pojo.Authority;
+import cc.dcloud.exception.NotMatchPwdException;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Builder
@@ -29,9 +36,9 @@ public class Member {
 
 	private String password;
 
-//	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-//	@Builder.Default
-//	private List<MemberGroup> memberGroupList = new ArrayList<>();
+	//	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+	//	@Builder.Default
+	//	private List<MemberGroup> memberGroupList = new ArrayList<>();
 
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
 	@Builder.Default
@@ -49,26 +56,26 @@ public class Member {
 
 	public static Member ofUser(SignUpDto signUpDto) {
 		Member member = Member.builder()
-				.username(signUpDto.getUsername())
-				.password(signUpDto.getPassword())
-				.build();
+			.username(signUpDto.getUsername())
+			.password(signUpDto.getPassword())
+			.build();
 		member.addAuthority(Authority.ofUser(member));
 		return member;
 	}
 
 	public static Member ofAdmin(SignUpDto signUpDto) {
 		Member member = Member.builder()
-				.username(signUpDto.getUsername())
-				.password(signUpDto.getPassword())
-				.build();
+			.username(signUpDto.getUsername())
+			.password(signUpDto.getPassword())
+			.build();
 		member.addAuthority(Authority.ofAdmin(member));
 		return member;
 	}
 
 	public List<String> getRoles() {
 		return authorities.stream()
-				.map(Authority::getRole)
-				.collect(Collectors.toList());
+			.map(Authority::getRole)
+			.collect(Collectors.toList());
 	}
 
 	private void addAuthority(Authority authority) {
@@ -76,7 +83,7 @@ public class Member {
 	}
 
 	public void checkPassword(PasswordEncoder passwordEncoder, String comparePassword) {
-		if(!passwordEncoder.matches(comparePassword, this.password)) {
+		if (!passwordEncoder.matches(comparePassword, this.password)) {
 			throw new NotMatchPwdException();
 		}
 	}

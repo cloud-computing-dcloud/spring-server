@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 
 import org.springframework.stereotype.Repository;
 
-import cc.dcloud.domain.File;
+import cc.dcloud.domain.files.File;
 import cc.dcloud.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +23,7 @@ public class FileRepository {
 
 	public File findById(Integer id) {
 		File file = em.find(File.class, id);
-		if(file==null){
+		if (file == null) {
 			throw new NotFoundException("존재하지 않는 파일입니다.");
 		}
 		return file;
@@ -35,7 +35,7 @@ public class FileRepository {
 			.getResultList();
 	}
 
-	public void delete(File file){
+	public void delete(File file) {
 		em.remove(file);
 	}
 }

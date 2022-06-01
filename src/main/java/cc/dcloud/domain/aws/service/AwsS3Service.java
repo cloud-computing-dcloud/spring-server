@@ -26,11 +26,9 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 public class AwsS3Service {
 
 	private static final Logger logger = LoggerFactory.getLogger(AwsS3Service.class);
-
+	private final AmazonS3 amazonS3;
 	@Value("${cloud.aws.s3.bucket}")
 	private String bucket;
-
-	private final AmazonS3 amazonS3;
 
 	public AwsS3Service(AmazonS3 amazonS3) {
 		this.amazonS3 = amazonS3;
