@@ -4,6 +4,7 @@ import cc.dcloud.domain.GroupType;
 import cc.dcloud.domain.group.Group;
 import cc.dcloud.domain.group.dto.CreateGroupDTO;
 import cc.dcloud.domain.group.dto.GroupListDTO;
+import cc.dcloud.domain.group.dto.InviteForm;
 import cc.dcloud.domain.group.service.GroupService;
 import cc.dcloud.domain.login.util.JwtTokenUtil;
 import cc.dcloud.domain.member.Member;
@@ -32,8 +33,9 @@ public class GroupController {
     }
 
     @PostMapping("/group/{groupId}/join")
-    public String join(@PathVariable("groupId")Integer groupId){
-        return "/";
+    public ResponseEntity<String> join(@PathVariable("groupId")Integer groupId, @RequestBody InviteForm form){
+        groupService.invite(groupId, form.getUsername());
+        return ResponseEntity.ok("success");
     }
 
     @GetMapping("/groups")

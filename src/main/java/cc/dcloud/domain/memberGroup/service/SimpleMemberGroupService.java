@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -30,4 +31,8 @@ public class SimpleMemberGroupService implements MemberGroupService {
         return memberGroupRepository.findAllByMemberId(memberId);
     }
 
+    @Override
+    public Optional<MemberGroup> getByGroupIdAndMemberId(Integer groupId, Integer memberId){
+        return memberGroupRepository.findByGroupIdAndMemberId(groupId, memberId);
+    }
 }

@@ -1,7 +1,7 @@
 package cc.dcloud.domain.login.util;
 
-import cc.dcloud.domain.login.exception.NotMatchNameException;
-import cc.dcloud.domain.login.exception.NotMatchTokenException;
+import cc.dcloud.exception.NotMatchNameException;
+import cc.dcloud.exception.NotMatchTokenException;
 import cc.dcloud.domain.login.repository.LogoutAccessTokenRedisRepository;
 import cc.dcloud.domain.login.service.CustomUserDetailService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

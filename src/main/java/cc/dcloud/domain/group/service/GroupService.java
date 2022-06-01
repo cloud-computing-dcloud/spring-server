@@ -5,12 +5,12 @@ import cc.dcloud.domain.group.Group;
 import cc.dcloud.domain.GroupType;
 import cc.dcloud.domain.group.dto.GroupDTO;
 import cc.dcloud.domain.group.dto.GroupListDTO;
-import cc.dcloud.domain.login.exception.NotFoundException;
+import cc.dcloud.exception.AlreadyExistException;
+import cc.dcloud.exception.NotFoundException;
 import cc.dcloud.domain.group.repository.GroupRepository;
 import cc.dcloud.domain.member.Member;
 import cc.dcloud.domain.member.repository.MemberRepository;
 import cc.dcloud.domain.memberGroup.MemberGroup;
-import cc.dcloud.domain.memberGroup.repository.MemberGroupRepository;
 import cc.dcloud.domain.memberGroup.service.MemberGroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -41,25 +40,23 @@ public class GroupService {
 
     @Transactional
     public Group createPublicGroup(Integer memberId, String name, GroupType groupType){
-        memberRepository
-                .findById(memberId)
-                .orElseThrow(NotFoundException::new);
+//        memberRepository.findById(memberId)
+//                .orElseThrow(NotFoundException::new);
         Group build = Group.create(name, groupType);
         Group group = groupRepository.save(build);
         folderService.createRootFolder(group);
-//        MemberGroup.create(memberId, group.getId());
         memberGroupService.create(memberId, group.getId());
 
         return group;
     }
 
     @Transactional
-    public void join(Integer groupId, Integer memberId){
-        // 로그인 인증 및 권한
-
-        Group group = groupRepository.findById(groupId)
+    public void invite(Integer groupId, String username) {
+        Member member = memberRepository.findByUsername(username)
                 .orElseThrow(NotFoundException::new);
-        //group.join(memberId); // 이거 어떄?
+
+        memberGroupService.getByGroupIdAndMemberId(member.getId(), groupId)
+                        .orElse(memberGroupService.create(member.getId(), groupId));
     }
 
     // 회원이 참가한 그룹 리스트 return
