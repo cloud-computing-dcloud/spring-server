@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import cc.dcloud.domain.File;
-import cc.dcloud.domain.Folder;
+import cc.dcloud.domain.files.File;
 import cc.dcloud.domain.files.service.FileService;
+import cc.dcloud.domain.folder.Folder;
 import cc.dcloud.domain.folder.dto.ContentDto;
 import cc.dcloud.domain.folder.dto.FolderCreateForm;
 import cc.dcloud.domain.folder.dto.FolderDto;
@@ -32,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class FolderController {
 
 	private final FolderService folderService;

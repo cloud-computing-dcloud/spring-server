@@ -3,14 +3,13 @@ package cc.dcloud.domain.folder.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import cc.dcloud.domain.File;
-import cc.dcloud.domain.Folder;
+import cc.dcloud.domain.files.File;
 import cc.dcloud.domain.files.dto.FileDto;
+import cc.dcloud.domain.folder.Folder;
 import lombok.Getter;
 
 @Getter
 public class ContentDto {
-
 
 	private List<FileDto> files;
 	private List<FolderDto> folders;

@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 
 import org.springframework.stereotype.Repository;
 
-import cc.dcloud.domain.Folder;
+import cc.dcloud.domain.folder.Folder;
 import cc.dcloud.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +16,7 @@ public class FolderRepository {
 
 	private final EntityManager em;
 
-	public Integer save(Folder folder){
+	public Integer save(Folder folder) {
 		em.persist(folder);
 		return folder.getId();
 	}

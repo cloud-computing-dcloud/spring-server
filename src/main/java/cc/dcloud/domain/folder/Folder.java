@@ -1,13 +1,14 @@
-package cc.dcloud.domain;
+package cc.dcloud.domain.folder;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import cc.dcloud.domain.group.Group;
-
-import javax.persistence.*;
-
-
 import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Getter
@@ -31,10 +32,6 @@ public class Folder {
 
 	//파일 이름, id 목록
 
-	public void setGroup(Group group) {
-		this.group = group;
-	}
-
 	public Folder(String name, Group group, Integer parentId) {
 		this.name = name;
 		this.group = group;
@@ -43,5 +40,9 @@ public class Folder {
 
 	public Folder() {
 
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
 	}
 }

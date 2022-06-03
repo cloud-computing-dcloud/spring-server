@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public class InviteForm {
-    private String username;
+	private String username;
 }

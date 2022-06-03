@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cc.dcloud.domain.File;
-import cc.dcloud.domain.Folder;
+import cc.dcloud.domain.aws.service.AwsS3Service;
+import cc.dcloud.domain.files.File;
 import cc.dcloud.domain.files.repository.FileRepository;
+import cc.dcloud.domain.folder.Folder;
 import cc.dcloud.domain.folder.repository.FolderRepository;
 import cc.dcloud.domain.group.Group;
-import cc.dcloud.domain.member.Member;
 import cc.dcloud.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 
@@ -18,9 +18,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class FolderService {
-	
+
 	private final FolderRepository folderRepository;
 	private final FileRepository fileRepository;
+	private final AwsS3Service awsS3Service;
 
 	@Transactional
 	public Integer createSubFolder(Folder folder) {
@@ -28,7 +29,7 @@ public class FolderService {
 	}
 
 	@Transactional
-	public Integer createRootFolder(Group group){
+	public Integer createRootFolder(Group group) {
 		Folder folder = new Folder("root", group, null);
 		Integer id = folderRepository.save(folder);
 		group.setRootFolderId(id);
@@ -57,7 +58,8 @@ public class FolderService {
 		for (File file : files) {
 			fileRepository.delete(file);
 			//s3 파일 삭제
-			String s3Key = folderId + "/" + file.getId();
+			String s3Key = folderId + "/" + file.getFileName();
+			awsS3Service.deleteFile(s3Key);
 		}
 		folderRepository.delete(folder);
 	}
