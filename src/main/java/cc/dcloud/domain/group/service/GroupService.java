@@ -81,4 +81,10 @@ public class GroupService {
                 .groupDTOList(groupList)
                 .build();
     }
+
+    public Group findByGroupId(Integer groupId) {
+        return groupRepository.findById(groupId)
+                .orElseThrow(NotFoundException::new);
+    }
+
 }

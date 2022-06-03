@@ -1,9 +1,6 @@
 package cc.dcloud.domain.login.controller;
 
-import cc.dcloud.domain.login.dto.LoginDto;
-import cc.dcloud.domain.login.dto.MemberDto;
-import cc.dcloud.domain.login.dto.SignUpDto;
-import cc.dcloud.domain.login.dto.TokenDto;
+import cc.dcloud.domain.login.dto.*;
 import cc.dcloud.domain.login.service.LoginService;
 import cc.dcloud.domain.login.util.JwtTokenUtil;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +31,8 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody LoginDto loginDto) {
-        TokenDto login = loginService.login(loginDto);
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto loginDto) {
+        LoginResponseDto login = loginService.login(loginDto);
         return ResponseEntity.ok(login);
     }
 

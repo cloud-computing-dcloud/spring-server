@@ -1,9 +1,6 @@
 package cc.dcloud.domain.login.service;
 
-import cc.dcloud.domain.login.dto.LoginDto;
-import cc.dcloud.domain.login.dto.MemberDto;
-import cc.dcloud.domain.login.dto.SignUpDto;
-import cc.dcloud.domain.login.dto.TokenDto;
+import cc.dcloud.domain.login.dto.*;
 
 public interface LoginService {
 
@@ -11,7 +8,7 @@ public interface LoginService {
 
     void signUpAdmin(SignUpDto signUpDto);
 
-    TokenDto login(LoginDto loginDto);
+    LoginResponseDto login(LoginDto loginDto);
 
     MemberDto getMemberInfo(String username);
 

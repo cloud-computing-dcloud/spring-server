@@ -1,4 +1,4 @@
-package cc.dcloud.domain.config;
+package cc.dcloud.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -28,6 +30,13 @@ public class AmazonS3Controller {
     public ResponseEntity<String> downloadFile(@RequestParam String fileName) {
        String url = awsS3Service.downloadFile(fileName);
        return ResponseEntity.ok(url);
+    }
+
+    @PostMapping("/download")
+    public String download(@RequestParam(required = true) String fileName, @RequestParam(required = false) String downloadFileName, HttpServletRequest request, HttpServletResponse response){
+        String result = "suc";
+        awsS3Service.download(fileName, downloadFileName, request, response);
+        return result;
     }
 
 

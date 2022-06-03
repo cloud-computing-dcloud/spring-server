@@ -3,12 +3,9 @@ package cc.dcloud.domain.login.service;
 import cc.dcloud.domain.folder.service.FolderService;
 import cc.dcloud.domain.group.Group;
 import cc.dcloud.domain.GroupType;
+import cc.dcloud.domain.login.dto.*;
 import cc.dcloud.domain.member.Member;
 import cc.dcloud.domain.memberGroup.MemberGroup;
-import cc.dcloud.domain.login.dto.LoginDto;
-import cc.dcloud.domain.login.dto.MemberDto;
-import cc.dcloud.domain.login.dto.SignUpDto;
-import cc.dcloud.domain.login.dto.TokenDto;
 import cc.dcloud.exception.NotFoundException;
 import cc.dcloud.exception.NotMatchNameException;
 import cc.dcloud.domain.login.pojo.CacheKey;
@@ -30,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static cc.dcloud.domain.login.util.JwtExpirationEnums.REFRESH_TOKEN_EXPIRATION_TIME;
 
@@ -81,16 +79,27 @@ public class SimpleLoginService implements LoginService{
 
     @Override
     @Transactional
-    public TokenDto login(LoginDto loginDto) {
+    public LoginResponseDto login(LoginDto loginDto) {
 
         Member member = memberService.getByUsername(loginDto.getUsername());
 
         member.checkPassword(passwordEncoder, loginDto.getPassword());
         String username = member.getUsername();
+        Integer userId = member.getId();
+
+        List<MemberGroup> groupList = memberGroupService.getByMemberId(userId);
+
+
+        List<MemberGroup> collect = groupList.stream()
+                .filter(mg -> groupService.findByGroupId(mg.getGroupId()).getGroupType().equals(GroupType.PRIVATE))
+                .collect(Collectors.toList());
+
+        Group group = groupService.findByGroupId(collect.get(0).getGroupId());
+        Integer rootFolderId = group.getRootFolderId();
+
         String accessToken = jwtTokenUtil.generateAccessToken(username);
         RefreshToken refreshToken = saveRefreshToken(username);
-        return TokenDto.of(accessToken, refreshToken.getRefreshToken());
-
+        return LoginResponseDto.of(accessToken, refreshToken.getRefreshToken(), rootFolderId);
     }
 
     @Override
