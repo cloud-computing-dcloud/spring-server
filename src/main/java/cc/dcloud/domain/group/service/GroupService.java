@@ -69,7 +69,7 @@ public class GroupService {
 				continue;
 			}
 
-			GroupDTO groupDTO = GroupDTO.builder()
+		GroupDTO groupDTO = GroupDTO.builder()
 				.id(group.getId())
 				.name(group.getName())
 				.rootFolderId(group.getRootFolderId())
@@ -80,4 +80,10 @@ public class GroupService {
 			.groupDTOList(groupList)
 			.build();
 	}
+
+    public Group findByGroupId(Integer groupId) {
+        return groupRepository.findById(groupId)
+                .orElseThrow(NotFoundException::new);
+    }
+
 }
