@@ -1,17 +1,17 @@
 spring:
   datasource:
 #    url: jdbc:h2:tcp://localhost/~/dcloud
-    url: jdbc:mysql://localhost:3306/dcloud?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://${DCLOUD_BUCKET_ENDPOINT}/dcloud?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
 #    username: sa
-    username: root
+    username: ${MYSQL_USERNAME}
 #    password:
-    password: cjsak123
+    password: ${MYSQL_PASSWORD}
 #    driver-class-name: org.h2.Driver
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
 #        show_sql: true
