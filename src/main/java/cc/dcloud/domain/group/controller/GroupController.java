@@ -30,18 +30,20 @@ public class GroupController {
 	private final JwtTokenUtil jwt;
 
 	@PostMapping("/group/create")
-	public ResponseEntity<Group> create(@RequestBody CreateGroupDTO createGroupDTO) {
-
+	public ResponseEntity<Group> create(@RequestBody CreateGroupDTO createGroupDTO,
+										@RequestHeader String authorization) {
+		Member member = getMemberByToken(authorization);
 		//일단 Group 엔티티 자체 return하도록
 		Group group = groupService.createPublicGroup(
-			createGroupDTO.getMemberId(),
+				member.getId(),
 			createGroupDTO.getName(),
 			GroupType.PUBLIC);
 		return ResponseEntity.ok(group);
 	}
 
-	@PostMapping("/group/{groupId}/join")
-	public ResponseEntity<String> join(@PathVariable("groupId") Integer groupId, @RequestBody InviteForm form) {
+	@PostMapping("/group/{rootDirectory}/join")
+	public ResponseEntity<String> join(@PathVariable("rootDirectory") Integer folderId, @RequestBody InviteForm form) {
+		int groupId = getGroupByFolder(folderId);
 		groupService.invite(groupId, form.getUsername());
 		return ResponseEntity.ok("success");
 	}
@@ -51,6 +53,10 @@ public class GroupController {
 		Member member = getMemberByToken(authorization);
 		GroupListDTO groupList = groupService.findAllByMember(member.getId());
 		return ResponseEntity.ok(groupList);
+	}
+
+	private int getGroupByFolder(Integer folderId) {
+		return groupService.findByRootFolderId(folderId);
 	}
 
 	private Member getMemberByToken(String authorization) {

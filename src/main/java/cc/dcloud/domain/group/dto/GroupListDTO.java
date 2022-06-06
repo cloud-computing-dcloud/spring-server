@@ -15,7 +15,6 @@ public class GroupListDTO {
 	public GroupListDTO() {
 	}
 
-	;
 
 	public GroupListDTO(List<GroupDTO> groupDTOList) {
 		this.groupDTOList = groupDTOList;

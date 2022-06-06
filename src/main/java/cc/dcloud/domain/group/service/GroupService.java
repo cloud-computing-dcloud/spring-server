@@ -61,10 +61,13 @@ public class GroupService {
 	// 회원이 참가한 그룹 리스트 return
 	public GroupListDTO findAllByMember(Integer memberId) {
 		List<GroupDTO> groupList = new ArrayList<>();
+		System.out.println("========memeber : {} -> " + memberId);
 		List<MemberGroup> memberGroupList = memberGroupService.getByMemberId(memberId);
 		for (MemberGroup memberGroup : memberGroupList) {
 			Group group = groupRepository.findById(memberGroup.getGroupId())
 				.orElseThrow(NotFoundException::new);
+			System.out.println("=-======group : " + group);
+			System.out.println("=========group typoe : " + group.getGroupType());
 			if (group.getGroupType().equals(GroupType.PRIVATE)) {
 				continue;
 			}
@@ -75,6 +78,7 @@ public class GroupService {
 				.rootFolderId(group.getRootFolderId())
 				.build();
 			groupList.add(groupDTO);
+			System.out.println(groupDTO.getName());
 		}
 		return GroupListDTO.builder()
 			.groupDTOList(groupList)
@@ -85,5 +89,11 @@ public class GroupService {
         return groupRepository.findById(groupId)
                 .orElseThrow(NotFoundException::new);
     }
+
+	public Integer findByRootFolderId(Integer folderId) {
+		Group group = groupRepository.findByRootFolderId(folderId)
+				.orElseThrow(NotFoundException::new);
+		return group.getId();
+	}
 
 }
